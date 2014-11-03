@@ -12,10 +12,15 @@ from Tkinter import *
 import matplotlib.pylab as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+
 #globals
 time=0.0
 filepath=""
 body=[]
+filetext='Select bodyTracking.csv file'
+filelabel=''
+timelabel=''
+
 
 def hms_to_seconds(tIn):
     tCells = tIn.split(':')
@@ -91,7 +96,7 @@ def drawSkeleton(body):
     ymin,ymax=ax.get_ylim()
     zmin,zmax=ax.get_zlim()
     ax.set_ylim([ymin-2,ymax+2])
-    plt.show()
+    fig.show()
 
 
 def getDataAtTime(dataFile,time):
@@ -136,6 +141,8 @@ def getDataAtTime(dataFile,time):
 
 def openFile():
     global filepath
+    global filetext
+    global filelabel
     filepath = tkFileDialog.askopenfilename(title=filetext)
     filename = os.path.basename(filepath)
     filelabel.set(str(filename)+" Loaded")
@@ -143,6 +150,7 @@ def openFile():
 
 def setTime():
     global time
+    global timelabel
     time = float(tkSimpleDialog.askfloat("Time Input", "Input time point in data to draw skeleton for (in seconds)")) 
     timelabel.set(str(time))
 
@@ -159,27 +167,32 @@ def prepDraw():
     drawSkeleton(body)
 
 
-root = Tk()
-root.title('Skeleton Explorer')
-button_opt = {'fill': Tkconstants.BOTH, 'padx': 5, 'pady': 5}
+def main():
+    global filetext
+    global filelabel
+    global timelabel
+    timetext= 'Select a time'
+    root = Tk()
+    root.title('Skeleton Explorer')
+    button_opt = {'fill': Tkconstants.BOTH, 'padx': 5, 'pady': 5}
+    
+    filebut = Button(root, text = filetext, fg = 'black', command= openFile)
+    filebut.pack()
+    filelabel = StringVar()
+    filelabel.set("No File Loaded")
+    Label(root, textvariable=filelabel).pack()
+    
+    dirbut= Button(root, text = timetext, fg = 'black', command= setTime)
+    dirbut.pack()
+    timelabel = StringVar()
+    timelabel.set("No Time Specified")
+    Label(root, textvariable=timelabel).pack()
+    
+    drawbut = Button(root, text = "Draw Skeleton", fg = 'black', command=prepDraw)
+    drawbut.pack()
+    
+    root.mainloop()
 
-filetext= 'Select bodyTracking.csv file'
-filebut = Button(root, text = filetext, fg = 'black', command= openFile)
-filebut.pack()
-filelabel = StringVar()
-filelabel.set("No File Loaded")
-Label(root, textvariable=filelabel).pack()
 
-timetext= 'Select a time'
-dirbut= Button(root, text = timetext, fg = 'black', command= setTime)
-dirbut.pack()
-timelabel = StringVar()
-timelabel.set("No Time Specified")
-Label(root, textvariable=timelabel).pack()
-
-drawbut = Button(root, text = "Draw Skeleton", fg = 'black', command=prepDraw)
-drawbut.pack()
-
-root.mainloop()
-
+main()
 
