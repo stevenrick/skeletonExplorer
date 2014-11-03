@@ -5,4 +5,4 @@ Draws joint points and 'bones' connecting those joints for available data closes
 
 Does not use any external libraries.
 
-Tested on Windows with Python 2.7
+Tested on Windows and Mac OS X with Python 2.7
