@@ -1,0 +1,46 @@
+<!DOCTYPE html >
+<html >
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>Kinect3D</title>
+    <script type="text/javascript" src="lib/d3.v3.min.js"></script>
+    <script type="text/javascript" src="lib/x3dom-full.js"></script>
+    <script type="text/javascript" src="lib/kinect3d.js"></script>
+    <script src="lib/jquery-1.11.1.min.js"></script>
+ 	<script src="lib/jquery-ui-1.11.1/jquery-ui.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="style/x3dom.css"/>
+    <link rel="stylesheet" href="style/buttons.css" /> 
+    <link rel="stylesheet" href="lib/jquery-ui-1.11.1/themes/smoothness/jquery-ui.css">
+  
+    
+  </head>
+  <body onload="var csvfile = location.search.split('csv=')[1] ? location.search.split('csv=')[1] : 'data/pilot4_rightOfLegs_top_1_bodyTracking.csv';  document.getElementById('selector').value=csvfile;">
+  
+  <div>
+  	<select id="selector" onChange="location.href = location.href.substring(0, location.href.indexOf('?')) + '?csv=' + this.options[this.selectedIndex].value;">
+  	  	<option value="data/pilot4_rightOfLegs_top_1_bodyTracking.csv">Surgery</option>
+  		<option value="data/RoboTestBack_2_bodyTracking.csv">Robot from Behind 1</option>
+  		<option value="data/RoboTestBack_3_bodyTracking.csv">Robot from Behind 2</option>
+  		<option value="data/RoboTest_24_bodyTracking.csv">Robot from Side</option>
+  	</select>
+  </div>
+  <div id="divPlot"></div>
+    <script>
+      d3.select('html').style('height','100%').style('width','100%')
+      d3.select('body').style('height','100%').style('width','95%').style('margin-left', 'auto').style('margin-right','auto')
+      d3.select('#divPlot').style('width', "80%").style('height', "82%")
+      kinect3d( d3.select('#divPlot'), "data/pilot4_rightOfLegs_top_1_bodyTracking.csv");
+    </script>
+	<div id="buttons" style="text-align:center;"></div>  
+	<p>
+  		<label for="frame">Current Frame:</label>
+ 		 <input type="text" id="frame" readonly style="border:0; color:#f6931f; font-weight:bold;" value="0">
+	</p>
+    <div id="slider"></div>
+  </script>
+
+  </div>
+  </body>
+</html>
